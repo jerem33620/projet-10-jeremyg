@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +25,7 @@ SECRET_KEY = '^pt(p+)xv+9s9mnywpf3gkjn2^nkmwm&wi)@7$!dy0#pqlqpq)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["jeremy-p8.herokuapps.com", "localhost", '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", '127.0.0.1']
 
 
 # Application definition
@@ -83,8 +82,12 @@ WSGI_APPLICATION = 'OC_projet_8_nutella.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'purbeurre',
+        'USER': 'jeremyg',
+        'PASSWORD': 'blabla12',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -161,7 +164,3 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jeremyprojet11@gmail.com'
 EMAIL_HOST_PASSWORD = 'pascaph2466'
 EMAIL_USE_TLS = True
-
-if os.environ.get("ENV")=="production":
-    DEBUG = False
-    django_heroku.settings(locals())
