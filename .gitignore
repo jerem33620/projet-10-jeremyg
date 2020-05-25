@@ -1,0 +1,9 @@
+__pycache__/
+.vscode/
+.env
+.venv/
+venv/
+env/
+node_modules/
+htmlcov/
+chromedriver*

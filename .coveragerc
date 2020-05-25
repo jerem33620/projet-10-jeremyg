@@ -1,0 +1,6 @@
+[run]
+omit =
+    OC_projet_8_nutella/*
+    */tests/*
+    */__init__.py
+    manage.py

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block header %}
+{% if product %}
+
+<header class="product-head">
+    <img src="{{ product.image_url }}" alt="product recherché" class="product-image">
+
+    <h1 class="product-head-title"><a  href="{{ product.url }}">{{ product.product_name }}</a></h1>
+
+</header> 
+
+{% else %}
+
+<header class="masthead">
+
+    <div class="header-container"> 
+    <h1>Du gras oui, mais de qualité!</h1>
+    <hr>
+    <h2>Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</h2>
+
+    <form action="{% url 'research' %}" method="get" class="header-form">
+        {% csrf_token %}
+        <input type="text" id="product-input" name="product" class="form-control product-input">
+        <p><button type="submit">Rechercher</button></p>
+    </form>
+    
+
+    {% if envoi %}
+        <p>Vois-ci votre résultat: </p>
+    {% endif %}
+    </div>
+
+</header>
+
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="product-result container">
+        {% if product %}
+        <p class="row"><h3>Vous pouvez remplacer cet aliment par:</h3></p>
+        {% endif %}
+        <div class="row">
+{% for substitute in substitutes %}
+            <div class="col-md-4 result">
+                <div class="result-image-nutriscore">
+                    <img src="{{ substitute.image_url }}" width="100" height="100" class="result-image">
+                    <div class="result-nutriscore result-nutriscore-{{ substitute.nutrition_grade_fr }}">{{ substitute.nutrition_grade_fr }}</div>
+                </div>
+                <a class="result-name" href="{% url 'product_info' substitute.code %}">{{ substitute.product_name }}</a>
+                {% if user.is_authenticated %}
+                <form class="result-form" method="post" action="{% url 'favorite_save' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product-code" value="{{ product.code }}">
+                    <input type="hidden" name="substitute-code" value="{{ substitute.code }}">
+                    <button class="result-button" type="submit">Sauvegarder</button>
+                </form>
+                {% endif %}
+            </div>
+{% empty %}
+            <div class="product-noresult col-md-6 offset-md-3"><center>Désolé, aucun produit n'a été trouvé</center></div>
+{% endfor %}
+        </div>
+    </div>  
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+<header class="masthead" style="background-color: orange; background-image: none;">
+    {% block header_content %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in signup_form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit">s'enregistrer</button>
+    </form>
+    {% endblock %}
+</header>
+
+{% endblock %}
