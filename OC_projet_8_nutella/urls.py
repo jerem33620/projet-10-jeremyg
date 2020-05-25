@@ -19,9 +19,6 @@ from django.contrib import admin
 from home import views
 
 
-def trigger_error(request):
-    division_by_zero = 1 / 0
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
@@ -33,5 +30,4 @@ urlpatterns = [
     path(
         'autocomplete/', include('autocomplete.urls', namespace="autocomplete")
     ),
-    path('sentry-debug/', trigger_error),
 ]
