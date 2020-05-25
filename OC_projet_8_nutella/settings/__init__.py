@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", '^pt(p+)xv+9s9mnywpf3gkjn2^nkmwm&wi)@7$!dy0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", '127.0.0.1', '206.189.117.65']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -157,10 +157,4 @@ MAX_RESULT = 6
 
 LOGIN_URL = "/users/login"
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'jeremyprojet11@gmail.com'
-EMAIL_HOST_PASSWORD = 'pascaph2466'
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
