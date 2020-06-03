@@ -5,6 +5,7 @@ python:
 before_script:
 	- pip install pipenv
 	- pipenv install --dev
+	- psql -c 'create database travis_ci_test;' -U postgres
 
 branches:
 	only:
