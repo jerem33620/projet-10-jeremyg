@@ -1,18 +1,32 @@
+dist: bionic
 language: python
-python:
-	- '3.8'
 
-before_script:
-	- pip install pipenv
-	- pipenv install --dev
-	- psql -c 'create database travis_ci_test;' -U postgres
+python:
+  - '3.8'
+
+addons:
+  # ajouter uniquement les navigateurs utilisés
+  chrome: stable
+  firefox: latest
 
 branches:
-	only:
-		- staging
+  only:
+    - staging
+    
+install:
+  - pip install pipenv
+  - pipenv install --dev
+
+before_script:
+  # ajouter tchappui-webdrivers dans requirements.txt
+  - install-webdrivers
+
+env:
+  global:
+    - DJANGO_SETTINGS_MODULE="OC_projet_8_nutella.settings.travis"
 
 services:
-	- postgresql
+  - postgresql
 
 script:
-	- ./manage.py test
+  - python manage.py test -v2
