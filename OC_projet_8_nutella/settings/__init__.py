@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'products.apps.ProductsConfig',
     'openfoodfacts.apps.OpenfoodfactsConfig',
-    'autocomplete.apps.AutocompleteConfig'
+    'autocomplete.apps.AutocompleteConfig',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
