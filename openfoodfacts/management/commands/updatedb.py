@@ -25,6 +25,12 @@ class Command(BaseCommand):
                 category.name
             )  # 1. downloader les produits pour chaque catégorie
             
+<<<<<<< HEAD
+            
+            self.save_products_by_category(
+                category, products
+            )  # 3. Sauvegarder les produits dans la base
+=======
             products = self.clean_products(
                 products
             )  # 2. Eliminer les produits pour lesquels il manque des infos
@@ -36,6 +42,7 @@ class Command(BaseCommand):
             self.save_products_by_category(
                 category, products
             )  # 4. Sauvegarder les produits dans la base
+>>>>>>> 87aa05b8e2cc47a6397e912eb64bf2873043dff3
 
     def save_category(self, category):
         """ cette méthode sert à sauvegarder dans la DB les catégories """
@@ -49,6 +56,17 @@ class Command(BaseCommand):
             self.stdout.write(str(product["product_name"]))
             if product["code"] not in self.codes:
                 self.codes.add(product["code"])
+<<<<<<< HEAD
+                Product.objects.get_or_create(
+                    code=product["code"],
+                    product_name=product["product_name"],
+                    category=category,
+                    nutrition_grade_fr=product["nutrition_grade_fr"],
+                    url=product["url"],
+                    image_url=product["image_url"],
+                    image_nutrition_url=product["image_nutrition_url"],
+                )
+=======
                 try:
                     myproduct = Product.objects.get(pk=productname["code"])
                 except Product.DoesNoExist:
@@ -59,6 +77,7 @@ class Command(BaseCommand):
                 myproduct["image_url"] = productname["image_url"]
                 myproduct["image_nutrition_url"] = productname["image_nutrition_url"]
                 myproduct.save()
+>>>>>>> 87aa05b8e2cc47a6397e912eb64bf2873043dff3
 
     def _is_valid(self, product):
         """ Cette méthode sert à vérifier que toutes les infos nécessaires,
@@ -71,6 +90,8 @@ class Command(BaseCommand):
                 return False
         return True
 
+<<<<<<< HEAD
+=======
     def clean_products(self, products):
         """ Cette méthode sert à supprimé et vérifier les produits """
         cleaned_products = []
@@ -81,6 +102,7 @@ class Command(BaseCommand):
 
         return cleaned_products
 
+>>>>>>> 87aa05b8e2cc47a6397e912eb64bf2873043dff3
     def delete_all(self):
         """ Cette méthode sert à supprimer les tables Product et Category """
         Product.objects.all().delete()
