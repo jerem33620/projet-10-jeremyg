@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
@@ -28,6 +30,9 @@ class Command(BaseCommand):
             self.save_products_by_category(
                 category, products
             )  # 3. Sauvegarder les produits dans la base
+
+            with open("updatedb.log", "a") as logfile:
+                logfile.write("Tâche Cron effectué à", datetime.now(), "\n")
 
     def save_category(self, category):
         """ cette méthode sert à sauvegarder dans la DB les catégories """
