@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
@@ -15,14 +17,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """ Cette méthode sert à appelé tous ce qu'il nous faudra pour la DB """
         self.codes=set()
-        self.delete_all()
         for category in settings.OPENFOODFACTS_CATEGORIES:
-            category, created = self.save_category(
-                category
-            )  # 0. Sauvegarder la catégories dans le modèle Category
             
             products = get_json(
-                category.name
+                category
             )  # 1. downloader les produits pour chaque catégorie
             
             products = self.clean_products(
@@ -32,6 +30,9 @@ class Command(BaseCommand):
             self.save_products_by_category(
                 category, products
             )  # 3. Sauvegarder les produits dans la base
+
+            with open("updatedb.log", "a") as logfile:
+                logfile.write(f"Tâche cron effectuée à {datetime.now()}\n")
 
     def save_category(self, category):
         """ cette méthode sert à sauvegarder dans la DB les catégories """
@@ -49,11 +50,11 @@ class Command(BaseCommand):
                     myproduct = Product.objects.get(pk=product["code"])
                 except Product.DoesNotExist:
                     continue
-                myproduct["product_name"] = product.get("product_name")
-                myproduct["nutrition_grade_fr"] = product.get("nutrition_grade_fr")
-                myproduct["url"] = product.get("url")
-                myproduct["image_url"] = product.get("image_url")
-                myproduct["image_nutrition_url"] = product.get("image_nutrition_url")
+                myproduct.product_name = product.get("product_name")
+                myproduct.nutrition_grade_fr = product.get("nutrition_grade_fr")
+                myproduct.url = product.get("url")
+                myproduct.image_url = product.get("image_url")
+                myproduct.image_nutrition_url = product.get("image_nutrition_url")
                 myproduct.save()
 
     def _is_valid(self, product):
@@ -76,8 +77,3 @@ class Command(BaseCommand):
                 cleaned_products.append(product)
 
         return cleaned_products
-
-    def delete_all(self):
-        """ Cette méthode sert à supprimer les tables Product et Category """
-        Product.objects.all().delete()
-        Category.objects.all().delete()
