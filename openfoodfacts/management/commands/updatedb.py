@@ -29,13 +29,9 @@ class Command(BaseCommand):
                 products
             )  # 2. Eliminer les produits pour lesquels il manque des infos
 
-            products = self.update_products(
-                products
-            )  # 3. Permet d'uploader les produits dans la base de donnée.
-            
             self.save_products_by_category(
                 category, products
-            )  # 4. Sauvegarder les produits dans la base
+            )  # 3. Sauvegarder les produits dans la base
 
     def save_category(self, category):
         """ cette méthode sert à sauvegarder dans la DB les catégories """
@@ -51,13 +47,13 @@ class Command(BaseCommand):
                 self.codes.add(product["code"])
                 try:
                     myproduct = Product.objects.get(pk=productname["code"])
-                except Product.DoesNoExist:
+                except Product.DoesNotExist:
                     continue
                 myproduct["product_name"] = productname.get("product_name")
-                myproduct["nutrition_grade_fr"] = productname("nutrition_grade_fr")
-                myproduct["url"] = productname["url"]
-                myproduct["image_url"] = productname["image_url"]
-                myproduct["image_nutrition_url"] = productname["image_nutrition_url"]
+                myproduct["nutrition_grade_fr"] = product("nutrition_grade_fr")
+                myproduct["url"] = product.get("url")
+                myproduct["image_url"] = product.get("image_url")
+                myproduct["image_nutrition_url"] = product.get("image_nutrition_url")
                 myproduct.save()
 
     def _is_valid(self, product):
