@@ -15,14 +15,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """ Cette méthode sert à appelé tous ce qu'il nous faudra pour la DB """
         self.codes=set()
-        self.delete_all()
         for category in settings.OPENFOODFACTS_CATEGORIES:
-            category, created = self.save_category(
-                category
-            )  # 0. Sauvegarder la catégories dans le modèle Category
             
             products = get_json(
-                category.name
+                category
             )  # 1. downloader les produits pour chaque catégorie
             
             products = self.clean_products(
@@ -76,8 +72,3 @@ class Command(BaseCommand):
                 cleaned_products.append(product)
 
         return cleaned_products
-
-    def delete_all(self):
-        """ Cette méthode sert à supprimer les tables Product et Category """
-        Product.objects.all().delete()
-        Category.objects.all().delete()
