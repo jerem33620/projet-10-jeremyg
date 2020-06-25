@@ -32,7 +32,7 @@ class Command(BaseCommand):
             )  # 3. Sauvegarder les produits dans la base
 
             with open("updatedb.log", "a") as logfile:
-                logfile.write("Tâche Cron effectué à", datetime.now(), "\n")
+                logfile.write(f"Tâche cron effectuée à {datetime.now()}\n")
 
     def save_category(self, category):
         """ cette méthode sert à sauvegarder dans la DB les catégories """
@@ -50,11 +50,11 @@ class Command(BaseCommand):
                     myproduct = Product.objects.get(pk=product["code"])
                 except Product.DoesNotExist:
                     continue
-                myproduct["product_name"] = product.get("product_name")
-                myproduct["nutrition_grade_fr"] = product.get("nutrition_grade_fr")
-                myproduct["url"] = product.get("url")
-                myproduct["image_url"] = product.get("image_url")
-                myproduct["image_nutrition_url"] = product.get("image_nutrition_url")
+                myproduct.product_name = product.get("product_name")
+                myproduct.nutrition_grade_fr = product.get("nutrition_grade_fr")
+                myproduct.url = product.get("url")
+                myproduct.image_url = product.get("image_url")
+                myproduct.image_nutrition_url = product.get("image_nutrition_url")
                 myproduct.save()
 
     def _is_valid(self, product):
